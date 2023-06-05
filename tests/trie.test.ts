@@ -1,4 +1,4 @@
-import {search,generateTrie,Options, TrieNode} from "../src/index"
+import {search,generateTrie,Options, TrieNode} from "../index"
 const {foods,books} = require("../src/data/sampleData");
 
 describe('it should generate  trie object',() => {
