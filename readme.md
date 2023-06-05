@@ -69,7 +69,7 @@ yarn add fast-trie-search
             To get the Trie object back, call the function thus:
 
             
-            ```
+```
                 import {search,generateTrie,Options, TrieNode} from "trie" // where "trie" is the package name
                 
                 .... 
@@ -84,7 +84,7 @@ yarn add fast-trie-search
                     }
                 const root:TrieNode generateTrie(recipesArray,searchProp,options)
                 }
-            ```
+```
 
 ### Notes
         - This could be used in a backend service to return a Trie object on an api that a client can then use to search
