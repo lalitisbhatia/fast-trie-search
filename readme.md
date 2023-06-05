@@ -71,59 +71,66 @@ yarn add fast-trie-search
             
             ```
                 import {search,generateTrie,Options, TrieNode} from "trie" // where "trie" is the package name
-                import 
+                
                 .... 
                 const myWrapperFuntion = () =.{ 
-                    const allRecipes = //get all my recipes
+                    const allRecipes = getAllMyRecipes()  // or any funciton call to fetch your data
                     const searchProp = "name"
-                    const options: Options = {
+                    const options: Options = {  /// all optional - see defaults above
                         outputProps : ["name","id","ingredients"],
                         addKey: true,
-                        splitRegex : "/[ -]/"
+                        splitRegex : "/[ -]/",
+                        excludeNodes : ['the','a','for','with','of'] 
                     }
                 const root:TrieNode generateTrie(recipesArray,searchProp,options)
                 }
             ```
-    **** USING THE TRIE OBJECT TO SEARCH *********
+
+### Notes
+        - This could be used in a backend service to return a Trie object on an api that a client can then use to search
+        - WARNING: The Trie object can become pretty large for large data sets  - we're sacrificing space for speed so make sure that the Trie object is        generated only once and then cached if doesnt change too often, 
+
+## USING THE TRIE OBJECT TO SEARCH 
         search(searchString, index, root) // default i=0, root is the full trie object
 
             If the Trie object is returned by an external service, then the client side will also need to import this package
             and in the onChange handler of the search input field, call the search method as shown in a React example below that is using 
             useState for 2 properties: searchTerm and searchResults and using the corresponding setSearchResults method to update the component
             with the search results
+            ```
+                import {search} from "trie" // where "trie" is the package name
+                ....
+                () => {
+                    let [searchTerm, setSearchTerm] = useState("")
+                    let [searchResults, setSearchResults] = useState([])
+                    // In this case theTrie object returned from an external service using a custom fetch component
+                    
+                    const {data: recipeTrie} = useFetch("http://myApi/../../trie",true) 
 
-            import {search} from "trie" // where "trie" is the package name
-            ....
-            () => {
-                let [searchTerm, setSearchTerm] = useState("")
-                let [searchResults, setSearchResults] = useState([])
-                // In this case theTrie object returned from an external service
-                const {data: recipeTrie} = useFetch("http://localhost:3400/recipes/utils/trie",true) 
+                    const searchHandler = (e) => {
+                        const str = e.target.value;                    
+                        setSearchTerm(str)
 
-                const searchHandler = (e) => {
-                    const str = e.target.value;                    
-                    setSearchTerm(str)
-
-                    let searchRes = recipeSearch(str, 0, recipeTrie).map(res => {
-                        return res.nodeObj;
-                    })
-                    setSearchResults(searchRes);                    
+                        let searchRes = recipeSearch(str, 0, recipeTrie).map(res => {
+                            return res.nodeObj;
+                        })
+                        setSearchResults(searchRes);                    
+                    }
                 }
-            }
 
-            ...... 
+                ...... 
 
-            { 
-                <input  
-                    className="search-input"
-                    type="text"
-                    required
-                    disabled={!recipeTrie}
-                    value= {searchTerm}
-                    placeholder="search more recipes"
-                    onChange={searchHandler}
-                />
-            }
-                
+                { 
+                    <input  
+                        className="search-input"
+                        type="text"
+                        required
+                        disabled={!recipeTrie}
+                        value= {searchTerm}
+                        placeholder="search more recipes"
+                        onChange={searchHandler}
+                    />
+                }
+            ```
 
-            WARNING: The Trie object can become pretty large - we're sacrificing space for speed so make sure that the Trie object is generated only onece and then cached if doesnt change too often, 
+            

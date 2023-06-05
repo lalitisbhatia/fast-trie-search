@@ -12,7 +12,10 @@
     "url": "fast-trie-search"
   },
   "keywords": [
-    "search"
+    "search",
+    "search-as-you-type",
+    "typeahead",
+    "trie"
   ],
   "author": "Lalit Bhatia",
   "license": "ISC",

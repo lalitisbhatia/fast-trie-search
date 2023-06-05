@@ -59,8 +59,7 @@ describe('it should test input options',() => {
         let results = search("road",0,trie);
         // console.log(results)
         expect(results.length).toEqual(0)
-    })
-    
+    })    
     it('should test splitRegex option and that searching \'road\' should return 1 item',()=>{
         opts.splitRegex="/[ -]/"
         let trie:TrieNode = generateTrie(books,'title',opts)        
