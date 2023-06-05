@@ -1,12 +1,21 @@
-This helper package can be used to implement a Search-As-You-Type funtionality
-    It contains 2 exposed methods and 2 Types - 
-        generateTrie()  This generates a large Trie object out of the input data source
+![](https://nodei.co/npm/fast-trie-search.png?downloads=True&stars=True)
+# Fast-Trie-Search
+This  package can be used to implement a Search-As-You-Type funtionality using  a Trie data structure
+    It contains 2 exposed methods and a Type - 
+        generateTrie()  This generates a  Trie object out of the input data source
         search()        This is used for a super fast search on as u type using the Trie object
         TrieNode        A class that defines the structre of the return object
-        Options         A type that defines the optional inputs to generating the Trie output for the generateTrie method
+        <!-- Options         A type that defines the optional inputs to generating the Trie output for the generateTrie method -->
     
-    **** GENERATING THE TRIE OBJECT *********
-    generateTrie(objArray, searchProp, Options: {outputProps, addKey, splitRegex})
+# Install
+
+```
+npm i --save fast-trie-search
+yarn add fast-trie-search
+```
+ # Basic Usage    
+## GENERATING THE TRIE OBJECT 
+    generateTrie(args)    
     
     INPUTS:
         objArray (Required):    This is the source data which is an array of objects - for e.g an array of recipes where 
@@ -26,9 +35,13 @@ This helper package can be used to implement a Search-As-You-Type funtionality
                                     BUT, if u want this result to come back for typing "fried" as well, 
                                     then the splitRegex should include the "-" charactr as well, so the input value of splitRegex will be  "/[ -]/"
                                     DEFAULT: " "  ( space character)
+            
+            excludeNodes (optional) : List of words that we dont want to index out Trie object on. This is to help reduce the size os the Trie
+                                    DEFAULT:  ["and","of","with","without","in","on","&","at","or","type","added","side","form","pre","is","an","into"]
 
 
         USAGE EXAMPLE:
+        
             
             Make sure that you understand the structure of your data. 
             
@@ -40,10 +53,8 @@ This helper package can be used to implement a Search-As-You-Type funtionality
                 "description": String;
                 "ingredients": any;
                 "tags": String[];
-                "difficultyLevel": String;
-                "maxPointsPrecise": Number;
-                "instructions": any[];
-                "images": object;
+                "difficultyLevel": String;                
+                "instructions": any[];                
             }
 
             Requirements:
@@ -51,25 +62,28 @@ This helper package can be used to implement a Search-As-You-Type funtionality
             2. This result should return when the user types not just the start of the name but the start of ANY word in the name i.e it should return when 
                 typing any of the dollowing:
                 Sti.., fried, chi.. , broccoli, red, pepp... , cashe... etc
-            3. In the search result, only the properties "name","id","tags","images" should be returned ( since the use case doesnt need other propoerties 
+            3. In the search result, only the properties "name","id","ingredients" should be returned ( since the use case doesnt need other propoerties 
                 and by specifying the specific properties, we save on the size of the Trie object)
             4. Show as a list on a React app so each item needs a unique key identifier
 
             To get the Trie object back, call the function thus:
-            ```
-            import {import {generateTrie,search,TrieNode,Options} from "trie" // where "trie" is the package name
-            .... 
-            const myWrapperFuntion = () =.{ 
-                const allRecipes = //get all my recipes
-                const searchProp = "name"
-                const options: Options ={
-                    outputProps : ["name","id","maxPointsPrecise","images"],
-                    addKey: true,
-                    splitRegex : "/[ -]/"
-                }
-                return generateTrie(recipesArray,searchProp,options)
-            }
+
             
+            ```
+                import {search,generateTrie,Options, TrieNode} from "trie" // where "trie" is the package name
+                import 
+                .... 
+                const myWrapperFuntion = () =.{ 
+                    const allRecipes = //get all my recipes
+                    const searchProp = "name"
+                    const options: Options = {
+                        outputProps : ["name","id","ingredients"],
+                        addKey: true,
+                        splitRegex : "/[ -]/"
+                    }
+                const root:TrieNode generateTrie(recipesArray,searchProp,options)
+                }
+            ```
     **** USING THE TRIE OBJECT TO SEARCH *********
         search(searchString, index, root) // default i=0, root is the full trie object
 

@@ -117,44 +117,41 @@
 */
 
 
-const parseRegex = require("regex-parser");
+import parseRegex from "regex-parser";
 
-// If we dont really care about search results for inputs of these basic prepositions and fluff words, remove them from being start of a node - this will reduce the size of the output Trie
-// const excludeNodes = ["and","of","with","without","in","on","&","at","or","type","added","side","form","pre","unprepared","uncooked","solid","liquids","mix","cooked","raw","fresh"]
+type Options = {
+    outputProps?: string[],
+    addKey?: boolean,
+    splitRegex?: string,
+    excludeNodes?: string[]
+ }
 
  class TrieNode{
-    map;
-    words;
+    public map: any;
+    public words: any;
     constructor(){
         this.map = {};
         this.words = []
     }    
 }
 
-const generateTrie = (objArray, searchProp, options = {}) => {
-    // console.log(objArray)
-    if(objArray.length===0){
-        throw("data array cannot be empty")
-    }
+const generateTrie = (objArray:any, searchProp:any, options: Options ={}) => {
     
-    let expandedObjArray  = []    
+    let expandedObjArray : any = []    
     let trieKey = 1;
-    
+
     //Default Options
     const defaults = {
         outputProps : Object.keys(objArray[0]),
         splitRegex : "/[ ]/",
         addKey : false,
-        excludeNodes : ["and","of","with","without","in","on","&","at","or","type","added","side","form","pre","unprepared","uncooked","solid","liquids","mix","cooked","raw","fresh"]
+        excludeNodes : ["and","the","of","with","without","in","on","&","at","or","type","added","side","form","pre","unprepared","uncooked","solid","liquids","mix","cooked","raw","fresh"]
     }
     
     // assign defualts
     const opts = Object.assign({}, defaults, options);
 
-    opts.excludeNodes= opts.excludeNodes.map(node =>{ return node.toLowerCase()});
-    
-    
-    objArray.forEach((element) => {
+    objArray.forEach((element: any) => {
         /*
         Expand the searchProp out. 
         If the search prop has a value "Stir-Fried Chicken with Jasmine rice", then create the following nodes:
@@ -170,8 +167,8 @@ const generateTrie = (objArray, searchProp, options = {}) => {
         let expandedElement = element[searchProp].split(parseRegex(opts.splitRegex));     
         //now for each of the  expanded node, create the return object and push it into the expandedObjArray
         for(let i=0;i<expandedElement.length;i++){
-            let nodeObj  = {}
-            opts.outputProps.forEach((prop) => {
+            let nodeObj : any = {}
+            opts.outputProps.forEach((prop:string) => {
                 nodeObj[prop] = element[prop]
             })
             
@@ -198,7 +195,7 @@ const generateTrie = (objArray, searchProp, options = {}) => {
     return root;    
 }
 
-const add = (str,i, root) => {
+const add = (str:any,i:any, root:any) => {
     let node = str.node
     let name = str.name
     if(i=== node.length){
@@ -214,8 +211,7 @@ const add = (str,i, root) => {
     add(str,i+1,root.map[node[i]])
 }
 
-const search = (str,i,root) => {
-    // console.log(str, i)
+const search = (str:string,i:any,root: TrieNode):any => {
     str = str.toLowerCase();
     if(i===str.length && i!==0){
         // console.log(str, i,root.words)
@@ -228,7 +224,4 @@ const search = (str,i,root) => {
     return search(str,i+1,root.map[str[i]]);
 }
 
-exports.TrieNode = TrieNode;
-exports.generateTrie = generateTrie;
-exports.search = search;
-// export {generateTrie, search, TrieNode}
+export {generateTrie, search, TrieNode, Options}
