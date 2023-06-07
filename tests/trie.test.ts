@@ -1,5 +1,5 @@
 import {search, generateTrie, TrieNode, Options} from "../src/index"
-const {foods,books} = require("../src/data/sampleData");
+const {books} = require("../src/data/sampleData");
 
 describe('it should generate  trie object',() => {
     let opts : Options = {
