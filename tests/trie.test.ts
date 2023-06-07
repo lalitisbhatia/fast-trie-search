@@ -1,14 +1,14 @@
-import {search,generateTrie,Options, TrieNode} from "../index"
+import {search, generateTrie, TrieNode, Options} from "../src/index"
 const {foods,books} = require("../src/data/sampleData");
 
 describe('it should generate  trie object',() => {
-    let opts: Options = {
+    let opts : Options = {
         outputProps : ["title","author"],
         addKey:false,
         splitRegex:"/[ -]/"
     }
 
-    let trie:TrieNode = generateTrie(books,'title',opts)
+    let trie = generateTrie(books,'title',opts)
     it('should test that the map property exitst',() =>{
         expect(trie.map).toBeDefined()
     })
@@ -29,7 +29,7 @@ describe('it should generate  trie object',() => {
     it('should test that search results to be an array  of objects with properties \'node\' and \'nodeObj\'',()=>{
         let results = search("the",0,trie);
         // console.log(results)
-        results.forEach(res =>{
+        results.forEach(res  =>{
             expect(res["node"]).toBeDefined();
             expect(res["nodeObj"]).toBeDefined();
         })                
@@ -38,13 +38,13 @@ describe('it should generate  trie object',() => {
 })
 
 describe('it should test input options',() => {
-    let opts:Options = {
+    let opts : Options = {
         outputProps : ["title","author"],
         addKey:false,
         splitRegex:"/[ ]/",
         excludeNodes : ['the','a','for']
     }
-    let trie:TrieNode = generateTrie(books,'title',opts)
+    let trie = generateTrie(books,'title',opts)
     it('should test exclude nodes and that searching \'the\' should return 0 items',()=>{
         let results = search("the",0,trie);
         console.log(results)
@@ -62,7 +62,8 @@ describe('it should test input options',() => {
     })    
     it('should test splitRegex option and that searching \'road\' should return 1 item',()=>{
         opts.splitRegex="/[ -]/"
-        let trie:TrieNode = generateTrie(books,'title',opts)        
+        let trie = new TrieNode()
+        trie = generateTrie(books,'title',opts)        
         // console.log(results)
         expect(search("road",0,trie).length).toEqual(1);
         expect(search("Star",0,trie).length).toEqual(1);
@@ -86,7 +87,8 @@ describe('it should test input options',() => {
     })
     it('should test default output proerties',()=>{
         delete opts.outputProps;
-        let newTrie:TrieNode = generateTrie(books,'title',opts)
+        let newTrie = new TrieNode()
+        newTrie = generateTrie(books,'title',opts)
         let results = search("rail",0,newTrie);
         // console.log(results)
         results.forEach(res =>{
