@@ -17,7 +17,6 @@ type Options = {
 }
 
 const generateTrie = (objArray:any, searchProp:any, options: Options ={}) => {
-    
     let expandedObjArray : any = []    
     let trieKey = 1;
 
@@ -29,7 +28,7 @@ const generateTrie = (objArray:any, searchProp:any, options: Options ={}) => {
         excludeNodes : ["and","the","of","with","without","in","on","&","at","or","type","added","side","form","pre","unprepared","uncooked","solid","liquids","mix","cooked","raw","fresh"]
     }
     
-    // assign defualts
+    // Assign defualts
     const opts = Object.assign({}, defaults, options);
 
     objArray.forEach((element: any) => {
@@ -46,7 +45,7 @@ const generateTrie = (objArray:any, searchProp:any, options: Options ={}) => {
         */
 
         let expandedElement = element[searchProp].split(parseRegex(opts.splitRegex));     
-        //now for each of the  expanded node, create the return object and push it into the expandedObjArray
+        // For each of the  expanded node, create the return object and push it into the expandedObjArray
         for(let i=0;i<expandedElement.length;i++){
             let nodeObj : any = {}
             opts.outputProps.forEach((prop:string) => {
@@ -65,9 +64,7 @@ const generateTrie = (objArray:any, searchProp:any, options: Options ={}) => {
 
     console.log( "total number of Trie words: ",expandedObjArray.length)
     
-    //initialize the return Trie object
     const root = new TrieNode();
-    //generate the Trie
     for (let i=0;i<expandedObjArray.length;i++){
         add (expandedObjArray[i],0,root);    
     }
@@ -76,33 +73,32 @@ const generateTrie = (objArray:any, searchProp:any, options: Options ={}) => {
     return root;    
 }
 
-const add = (str:any,i:any, root:any) => {
+const add = (str:any,startIndex:any, root:TrieNode) => {
     let node = str.node
-    let name = str.name
-    if(i=== node.length){
+
+    if(startIndex=== node.length){
         root.words.push(str);
         return;
     }
     
-    if(!root.map[node[i]]){        
-        root.map[node[i]] = new TrieNode();
+    if(!root.map[node[startIndex]]){        
+        root.map[node[startIndex]] = new TrieNode();
     }
     
     root.words.push(str);
-    add(str,i+1,root.map[node[i]])
+    add(str,startIndex+1,root.map[node[startIndex]])
 }
 
-const search = (str:string,i:any,root: TrieNode):any => {
+const search = (str: string, startIndex: number, root: TrieNode):any => {
     str = str.toLowerCase();
-    if(i===str.length && i!==0){
-        // console.log(str, i,root.words)
+    if(startIndex===str.length && startIndex!==0){        
         return root.words
     }
         
-    if(!root.map[str[i]])
+    if(!root.map[str[startIndex]])
         return [];
 
-    return search(str,i+1,root.map[str[i]]);
+    return search(str,startIndex+1,root.map[str[startIndex]]);
 }
 
 export {generateTrie, search, TrieNode, Options}
