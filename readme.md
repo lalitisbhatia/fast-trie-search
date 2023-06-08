@@ -102,7 +102,7 @@ const myWrapperFuntion = () =.{
 #### Client Side Usage (React Example)             
 
 ```
-import {search} from **"fast-trie-search"**
+import {search} from "fast-trie-search"  
 ....
 () => {
     let [searchTerm, setSearchTerm] = useState("")
@@ -115,7 +115,7 @@ import {search} from **"fast-trie-search"**
         const str = e.target.value;                    
         setSearchTerm(str)
 
-        let searchRes = **search(str, 0, recipeTrie)**.map(res => {
+        let searchRes = search(str, 0, recipeTrie).map(res => {
             return res.nodeObj;
         })
         setSearchResults(searchRes);                    
