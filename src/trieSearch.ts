@@ -25,7 +25,7 @@ const generateTrie = (objArray:any, searchProp:any, options: Options ={}) => {
         outputProps : Object.keys(objArray[0]),
         splitRegex : "/[ ]/",
         addKey : false,
-        excludeNodes : ["and","the","of","with","without","in","on","&","at","or","type"]
+        excludeNodes : ["and","the","of","with","without","in","on","&","at","as","or","type"]
     }
     
     // Assign defualts
