@@ -92,7 +92,10 @@ const myWrapperFuntion = () =.{
 
 #### Notes
         - This could be used in a backend service to return a Trie object on an api that a client can then use to search
-        - WARNING: The Trie object can become pretty large for large data sets  - we're sacrificing space for speed so make sure that the Trie object is  generated only once and then cached if doesnt change too often, 
+        - WARNING: The Trie object can become pretty large for large 
+        data sets  - we're sacrificing space for speed so make sure 
+        that the Trie object is  generated only once and then cached if 
+        doesnt change too often, 
 
 ### SEARCH THE TRIE
    search(searchString, index, root) // default i=0, root is the full trie object
