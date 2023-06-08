@@ -97,7 +97,13 @@ const myWrapperFuntion = () =.{
 ### SEARCH THE TRIE
    search(searchString, index, root) // default i=0, root is the full trie object
 
-            If the Trie object is returned by an external service, then the client side will also need to import this package and in the onChange handler of the search input field, call the search method as shown in a React example below that is using useState for 2 properties: searchTerm and searchResults and using the corresponding setSearchResults method to update the component with the search results
+            If the Trie object is returned by an external service, then
+            the client side will also need to import this package and 
+            in the onChange handler of the search input field, call the 
+            search method as shown in a React example below that is 
+            using useState for 2 properties: searchTerm and 
+            searchResults and using the corresponding setSearchResults 
+            method to update the component with the search results
 
 #### Client Side Usage (React Example)             
 
