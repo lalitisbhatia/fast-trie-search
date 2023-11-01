@@ -53,7 +53,7 @@ const generateTrie = (objArray:any, searchProp:any, options: Options ={}) => {
             })
             
             if(opts.addKey===true){
-                nodeObj.key = trieKey++
+                nodeObj.k = trieKey++
             }
 
             if(!opts.excludeNodes.includes(expandedElement[i].toLowerCase())){
