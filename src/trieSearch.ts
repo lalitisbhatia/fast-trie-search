@@ -8,11 +8,11 @@ type Options = {
  }
 
  class TrieNode{
-    public map: any;
-    public words: any;
+    public m: any; //map
+    public w: any; //words 
     constructor(){
-        this.map = {};
-        this.words = []
+        this.m = {};
+        this.w = []
     }    
 }
 
@@ -69,7 +69,7 @@ const generateTrie = (objArray:any, searchProp:any, options: Options ={}) => {
         add (expandedObjArray[i],0,root);    
     }
     // empty out the top level array as it serves no purpose and adds to the size
-    root.words=[] 
+    root.w=[] 
     return root;    
 }
 
@@ -77,28 +77,28 @@ const add = (str:any,startIndex:any, root:TrieNode) => {
     let node = str.node
 
     if(startIndex=== node.length){
-        root.words.push(str);
+        root.w.push(str);
         return;
     }
     
-    if(!root.map[node[startIndex]]){        
-        root.map[node[startIndex]] = new TrieNode();
+    if(!root.m[node[startIndex]]){        
+        root.m[node[startIndex]] = new TrieNode();
     }
     
-    root.words.push(str);
-    add(str,startIndex+1,root.map[node[startIndex]])
+    root.w.push(str);
+    add(str,startIndex+1,root.m[node[startIndex]])
 }
 
 const search = (str: string, startIndex: number, root: TrieNode):any => {
     str = str.toLowerCase();
     if(startIndex===str.length && startIndex!==0){        
-        return root.words
+        return root.w
     }
         
-    if(!root.map[str[startIndex]])
+    if(!root.m[str[startIndex]])
         return [];
 
-    return search(str,startIndex+1,root.map[str[startIndex]]);
+    return search(str,startIndex+1,root.m[str[startIndex]]);
 }
 
 export {generateTrie, search, TrieNode, Options}

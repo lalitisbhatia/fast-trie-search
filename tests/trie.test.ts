@@ -10,7 +10,7 @@ describe('it should generate  trie object',() => {
 
     let trie = generateTrie(books,'title',opts)
     it('should test that the map property exitst',() =>{
-        expect(trie.map).toBeDefined()
+        expect(trie.m).toBeDefined()
     })
     it('should test that searching \'dogs\' should return 1 item',()=>{
         let results = search("dogs",0,trie);
