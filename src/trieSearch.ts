@@ -95,7 +95,8 @@ const add = (str:any,startIndex:any, root:TrieNode, searchStartIndex:any) => {
     }
     
     if(startIndex>=searchStartIndex) {        
-        root["w"]=[]
+        if(!root.w)
+            root["w"]=[]
         root.w.push(str);        
     }        
     else{

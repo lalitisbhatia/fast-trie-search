@@ -140,3 +140,30 @@ describe('it should test input options',() => {
         })  
     })
 })
+
+describe('search should still have multiple results even if  after typing n characters',() => {
+    let opts : Options = {
+        outputProps : ["title","author"],
+        addKey:false,
+        searchStartIndex:3,
+        splitRegex:"/[ -]/"
+    }
+
+    let trie = generateTrie(books,'title',opts)
+    const byteSize = (str:any) => new Blob([str]).size;    
+    console.log(`Byte size of the  Trie = ${byteSize(JSON.stringify(trie))} Bytes `)
+    console.log(`Byte size of the  Trie = ${Math.floor(byteSize(JSON.stringify(trie))/(1024*1024))} MB `)
+    
+    it('should test that searching \'tr\' should return 0 item',()=>{
+        let results = search("tr",0,trie);        
+        expect(results).toBeUndefined
+    })
+
+    it('should test that searching \'tra\' should return 3 item',()=>{
+        let results = search("tra",0,trie);        
+        expect(results.length).toEqual(3)
+    })
+
+    
+
+})
