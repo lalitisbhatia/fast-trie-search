@@ -32,8 +32,13 @@ yarn add fast-trie-search
                                 from each object in objArray - only return what is needed for your specific use case
                                 DEFAULT: return the entire object - Be careful as the returned Trie is a large object so only 
                                 return the data that you need
+
                 addKey :        Some use cases, say if you're ouputting a list on a React app, require a unique key for each item on the list
                                 DEFAULT: false
+
+                searchStartIndex : the number of letters to type at which the search will return results. This is 
+                                    helpful in use cases where its unecessary to start at the first letter and helps reduce the trie size
+
                 splitRegex :    This is the character on which to split the searchProp input. For eg, if the value of the input property, "name" 
                                 is "Oven-fried pork chops" and we want to be able to type "pork" or "chops"  or "oven" to get this result back, then 
                                 the input regex can be just "/[ ]/" ( just a space). 

@@ -4,6 +4,7 @@ type Options = {
     outputProps?: string[],
     addKey?: boolean,
     splitRegex?: string,
+    searchStartIndex?:number,
     excludeNodes?: string[]
  }
 
@@ -25,6 +26,7 @@ const generateTrie = (objArray:any, searchProp:any, options: Options ={}) => {
         outputProps : Object.keys(objArray[0]),
         splitRegex : "/[ ]/",
         addKey : false,
+        searchStartIndex: 0,
         excludeNodes : ["and","the","of","with","without","in","on","&","at","as","or","type"]
     }
     
@@ -66,17 +68,24 @@ const generateTrie = (objArray:any, searchProp:any, options: Options ={}) => {
     
     const root = new TrieNode();
     for (let i=0;i<expandedObjArray.length;i++){
-        add (expandedObjArray[i],0,root);    
+        add (expandedObjArray[i],0,root,opts.searchStartIndex);    
     }
     // empty out the top level array as it serves no purpose and adds to the size
     root.w=[] 
     return root;    
 }
 
-const add = (str:any,startIndex:any, root:TrieNode) => {
+// searchStartIndex : the number of letters to type at which the search will return results. THis is 
+// helpful in use cases where its unecessary to start at the first letter and helps reduce the trie size
+const add = (str:any,startIndex:any, root:TrieNode, searchStartIndex:any) => {
+    // console.log("STR: ", str)
+    // console.log("str.nd: ", str.nd)
+    // console.log("startIndex: ", startIndex)
+    // console.log("-------------------------------------")
     let node = str.node
 
-    if(startIndex=== node.length){
+    if(startIndex=== node.length){     
+        root["w"]=[]   
         root.w.push(str);
         return;
     }
@@ -85,8 +94,14 @@ const add = (str:any,startIndex:any, root:TrieNode) => {
         root.m[node[startIndex]] = new TrieNode();
     }
     
-    root.w.push(str);
-    add(str,startIndex+1,root.m[node[startIndex]])
+    if(startIndex>=searchStartIndex) {        
+        root["w"]=[]
+        root.w.push(str);        
+    }        
+    else{
+        delete root.w
+    }
+    add(str,startIndex+1,root.m[node[startIndex]], searchStartIndex)
 }
 
 const search = (str: string, startIndex: number, root: TrieNode):any => {
